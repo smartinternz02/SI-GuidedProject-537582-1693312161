@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas:3
+  selector:
+    matchLabels:
+    app: app
+template:
+  metadata:
+  labels:
+    app: app
+specs:
+  containers:
+  - name: app
+    image:docker.io/sridevip18/cadtest
+    ports:
+    - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+spec:
+  selector:
+    app: app
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      nodePort: 32123
